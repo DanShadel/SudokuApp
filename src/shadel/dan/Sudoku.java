@@ -4,6 +4,8 @@ import java.util.Random;
 
 public class Sudoku {
 
+	public Index board[] = new Index[81];
+	
 	//prints the current board. Will replace with java applet when finished
 	static void printBoard(Index[] board) {
 		
@@ -169,6 +171,7 @@ public class Sudoku {
 		int newzero=27;
 		boolean boxfull;
 		int j;
+		int counter = 0;
 		//27 squares unfilled remaining
 		board[0].zeros = 27;
 		//place forced placements
@@ -182,6 +185,10 @@ public class Sudoku {
 		
 		while(board[0].zeros > 0)
 		{
+			counter++;
+			if(counter >100) {
+				break;
+			}
 			//box 7
 			i=63;
 			boxfull=true;
@@ -252,15 +259,25 @@ public class Sudoku {
 	}
 	
 	static void genBoard(Index[] board, Random rand) {
-		step1(board,rand);
-		step2(board,rand);
-		step3(board,rand);
-		step4(board,rand);
+		
+		try {
+			step1(board,rand);
+			step2(board,rand);
+			step3(board,rand);
+			step4(board,rand);
+		}
+		catch(Exception e) {
+			for(int i=0;i<81;i++)
+			{
+				board[i].num = 0;
+			}
+			genBoard(board,rand);
+		}
 	}
-	public static void main(String[] args) {
+	Sudoku() {
 		
 		//create indexes
-		Index board[] = new Index[81];
+		
 		int i;
 		Random rand = new Random();
 		
