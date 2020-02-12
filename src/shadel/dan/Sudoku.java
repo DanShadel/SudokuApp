@@ -265,6 +265,12 @@ public class Sudoku {
 			step2(board,rand);
 			step3(board,rand);
 			step4(board,rand);
+			for(int i=0;i<81;i++)
+			{
+				if (board[i].num == 0) {
+					throw new NullPointerException("Zeroes");
+				}
+			}
 		}
 		catch(Exception e) {
 			for(int i=0;i<81;i++)
@@ -294,13 +300,7 @@ public class Sudoku {
 		
 		printBoard(board);
 		
-		
-		
-		
-		
-		
-		
-		
+
 		
 	}//end main()
 

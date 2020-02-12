@@ -16,11 +16,17 @@ import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 import javax.swing.border.*;
 import javax.swing.BorderFactory;
+import java.awt.Font;
+import java.awt.FlowLayout;
+import javax.swing.SpringLayout;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 
 public class Window {
 
 	private JFrame frame;
-	
+	private int difficulty = -1;
 
 	/**
 	 * Launch the application.
@@ -29,10 +35,15 @@ public class Window {
 		EventQueue.invokeLater(new Runnable() {
 			
 			Sudoku sudoku = new Sudoku();
-			
+			boolean win = false;
 			
 			public void run() {
 				try {
+					
+					//Window menu = new Window();
+					//menu.frame.setVisible(true);
+					
+					
 					Window window = new Window(sudoku);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -45,6 +56,82 @@ public class Window {
 	/**
 	 * Create the application.
 	 */
+	public Window() {
+		
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		JLabel MenuScreen = new JLabel("SUDOKU");
+		MenuScreen.setFont(new Font("Rod", Font.PLAIN, 45));
+		MenuScreen.setHorizontalAlignment(SwingConstants.CENTER);
+		frame.getContentPane().add(MenuScreen, BorderLayout.NORTH);
+		
+		Box verticalBox = Box.createVerticalBox();
+		frame.getContentPane().add(verticalBox, BorderLayout.CENTER);
+		
+		Component verticalStrut_1 = Box.createVerticalStrut(80);
+		verticalBox.add(verticalStrut_1);
+		
+		JButton btnEasy = new JButton("Easy");
+		btnEasy.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				difficulty = 1;
+			}
+		});
+		btnEasy.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnEasy.setPreferredSize(new Dimension(40,30));
+		verticalBox.add(btnEasy);
+		
+		Component verticalStrut = Box.createVerticalStrut(20);
+		verticalBox.add(verticalStrut);
+		
+		JButton btnMedium = new JButton("Medium");
+		btnMedium.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				difficulty = 2;
+			}
+		});
+		btnMedium.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnMedium.setPreferredSize(new Dimension(40,30));
+		verticalBox.add(btnMedium);
+		
+		Component verticalStrut_2 = Box.createVerticalStrut(20);
+		verticalBox.add(verticalStrut_2);
+		
+		JButton btnHard = new JButton("Hard");
+		btnHard.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				difficulty = 3;
+			}
+		});
+		btnHard.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnHard.setPreferredSize(new Dimension(40,30));
+		verticalBox.add(btnHard);
+		
+		Component verticalStrut_3 = Box.createVerticalStrut(20);
+		verticalBox.add(verticalStrut_3);
+		
+		JButton btnExpert = new JButton("Expert");
+		btnExpert.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				difficulty = 4;
+			}
+		});
+		btnExpert.setPreferredSize(new Dimension(40,30));
+		btnExpert.setAlignmentX(Component.CENTER_ALIGNMENT);
+		verticalBox.add(btnExpert);
+		
+		
+		
+	 	
+		
+	}
 	public Window(Sudoku sudoku) {
 		initialize(sudoku);
 	}
