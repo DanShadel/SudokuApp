@@ -5,6 +5,7 @@ import java.util.Random;
 public class Sudoku {
 
 	public Index board[] = new Index[81];
+	public Index playboard[] = new Index[81];
 	
 	//prints the current board. Will replace with java applet when finished
 	static void printBoard(Index[] board) {
@@ -21,8 +22,13 @@ public class Sudoku {
 			count += (i*3) + ((row/3)*18);
 			for(int j=0;j<9;j++)
 			{
+				if(board[count].num == 0) {
+					System.out.print("  ");
+				}
+				else {
+					System.out.print(board[count].num + " ");
+				}
 				
-				System.out.print(board[count].num + " ");
 				count++;
 				if (count%3 == 0) {
 					System.out.print("| ");
@@ -258,6 +264,88 @@ public class Sudoku {
 		
 	}
 	
+	
+	static void step5(Index[] board, Index[] playboard, Random rand, int difficulty) {
+		
+		int i;
+		int temp=-1;
+		int index = -1;
+		int playing = 0;
+		ArrayList<Integer> placed = new ArrayList<Integer>(50);
+		ArrayList<Integer> boxes = new ArrayList<Integer>(9);
+		
+		//populate a list with the unplaced boxes
+		for(i=0;i<9;i++) {
+			boxes.add(i);
+		}
+		
+		
+		//generate a solvable board.
+		//start by placing a number in every box except one.
+		
+		
+		//temp is the one box that doesn't get a placement
+		temp=rand.nextInt(9);
+		for(i=0;i<9;i++) {
+			
+			if(i==temp) {
+				continue;
+			}
+			
+			index = rand.nextInt(9); //select a random local index
+			index += i *9; // add box offset
+			placed.add(index);
+		}
+			
+			
+		//now we need to add all the other starting boxes boxes
+		// set the total number of placed boxes per difficulty
+		switch(difficulty) {
+			case 1://easy
+				playing = 50;
+				break;
+			case 2://medium
+				playing = 40;
+				break;
+				
+			case 3://hard
+				playing = 30;
+				break;
+				
+			case 4://Expert
+				playing = 24;
+				break;
+		}
+		
+		//remove the first 8 from the total placed
+		playing -= 8;
+		
+		System.out.println("creating the rest of the placed boxes");
+		for(i=0;i<playing;i++) {
+			while(placed.contains(index)) {
+				index = rand.nextInt(81);
+			}
+			System.out.println(index);
+			placed.add(index);
+		}
+		
+		
+		
+		
+		
+		
+		
+		//copy only the selected indices to the play board
+		for(i=0;i<placed.size();i++){
+			
+			index = placed.get(i);
+			playboard[index].num = board[index].num;
+			
+			
+			
+		}
+	}
+	
 	static void genBoard(Index[] board, Random rand) {
 		
 		try {
@@ -265,6 +353,8 @@ public class Sudoku {
 			step2(board,rand);
 			step3(board,rand);
 			step4(board,rand);
+			
+			
 			for(int i=0;i<81;i++)
 			{
 				if (board[i].num == 0) {
@@ -280,7 +370,11 @@ public class Sudoku {
 			genBoard(board,rand);
 		}
 	}
-	Sudoku() {
+	static void makePlayingBoard(Index[] board, Index[] playboard, Random rand, int difficulty){
+		
+		
+	}
+	Sudoku(int difficulty) {
 		
 		//create indexes
 		
@@ -291,14 +385,19 @@ public class Sudoku {
 		
 		for(i=0;i<81;i++) {
 			board[i] = new Index(i);
+			playboard[i] = new Index(i);
 		}
 		
 		
 		
 		// Generate Box 0
 		genBoard(board,rand);
-		
+		step5(board,playboard,rand,4);
 		printBoard(board);
+		printBoard(playboard);
+		System.out.println("playboard printed?");
+		
+		
 		
 
 		

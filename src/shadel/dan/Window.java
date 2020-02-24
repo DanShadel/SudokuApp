@@ -34,18 +34,22 @@ public class Window {
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			
-			Sudoku sudoku = new Sudoku();
+			Sudoku sudoku = new Sudoku(1);
 			boolean win = false;
 			
 			public void run() {
 				try {
 					
 					//Window menu = new Window();
-					//menu.frame.setVisible(true);
 					
 					
-					Window window = new Window(sudoku);
-					window.frame.setVisible(true);
+					/*while (menu.difficulty < 0) {
+						menu.frame.setVisible(true);
+					}*/
+					
+					
+					//Window window = new Window(sudoku);
+					//window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -58,6 +62,7 @@ public class Window {
 	 */
 	public Window() {
 		
+		difficulty = -1;
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
